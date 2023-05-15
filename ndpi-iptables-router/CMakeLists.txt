@@ -10,6 +10,8 @@ find_package(Qt6 6.2 REQUIRED COMPONENTS Quick)
 
 qt_add_executable(appndpi-iptables-router
     main.cpp
+    networkinterfacemodel.h
+    networkinterfacemodel.cpp
 )
 
 qt_add_qml_module(appndpi-iptables-router

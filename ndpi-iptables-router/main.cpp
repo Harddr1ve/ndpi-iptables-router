@@ -1,10 +1,13 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
+#include "networkinterfacemodel.h"
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
+
+    qmlRegisterType<NetworkInterfaceModel>("com.example", 1, 0, "NetworkInterfaceModel");
 
     QQmlApplicationEngine engine;
     const QUrl url(u"qrc:/ndpi-iptables-router/Main.qml"_qs);

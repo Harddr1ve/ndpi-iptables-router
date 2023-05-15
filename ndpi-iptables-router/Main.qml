@@ -1,9 +1,19 @@
-import QtQuick
-import QtQuick.Window
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import com.example 1.0
 
-Window {
+ApplicationWindow {
+    visible: true
     width: 640
     height: 480
-    visible: true
     title: qsTr("Hello World")
+
+    ListView {
+        anchors.fill: parent
+        model: NetworkInterfaceModel {}
+
+        delegate: Text {
+            text: model.name
+        }
+    }
 }

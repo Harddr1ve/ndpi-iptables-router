@@ -12,6 +12,8 @@ qt_add_executable(appndpi-iptables-router
     main.cpp
     networkinterfacemodel.h
     networkinterfacemodel.cpp
+    dpiworker.h
+    dpiworker.cpp
 )
 
 qt_add_qml_module(appndpi-iptables-router
@@ -30,6 +32,8 @@ set_target_properties(appndpi-iptables-router PROPERTIES
 
 target_link_libraries(appndpi-iptables-router
     PRIVATE Qt6::Quick
+    ndpi
+    pcap
 )
 
 install(TARGETS appndpi-iptables-router

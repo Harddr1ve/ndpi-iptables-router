@@ -9,11 +9,43 @@ ApplicationWindow {
     title: qsTr("Hello World")
 
     ListView {
-        anchors.fill: parent
+        id: interfacesList
+
+        anchors {
+            left: parent.left
+        }
+        height: parent.height
+        width: 100
         model: NetworkInterfaceModel {}
 
         delegate: Text {
             text: model.name
+        }
+    }
+    ListView {
+        id: listView
+        anchors {
+            right: parent.right
+            top: parent.top
+        }
+        width: 200
+        height: parent.height
+        model: ListModel {
+            id: listModel
+        }
+    }
+
+    Button {
+        width: 50
+        height: 25
+        anchors {
+            bottom: parent.bottom
+            horizontalCenter: parent.horizontalCenter
+        }
+        onClicked: {
+            worker.packetProcessed.connect(function(info) {
+                listModel.append({"text": info});})
+            worker.start();
         }
     }
 }

@@ -1,51 +1,151 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+
+import ProtocolModel 1.0
 import com.example 1.0
 
 ApplicationWindow {
     visible: true
     width: 640
     height: 480
-    title: qsTr("Hello World")
+    title: qsTr("nDPI ipTables Router")
 
-    ListView {
-        id: interfacesList
+    footer: Rectangle {
+        height: parent.height * 0.1
+        color: "Gray"
 
-        anchors {
-            left: parent.left
+        TextInput {
+            id: inputIptablesCommand
+
+            height: parent.height * 0.9
+            width: parent.width *  0.8
+            anchors {
+                verticalCenter: parent.verticalCenter
+                left: parent.left
+                leftMargin: 5
+            }
+            text: "Input Command"
         }
-        height: parent.height
-        width: 100
-        model: NetworkInterfaceModel {}
 
-        delegate: Text {
-            text: model.name
+        Button {
+            id: buttonExecute
+
+            implicitWidth: 100
+            height: parent.height * 0.8
+            anchors {
+                verticalCenter: parent.verticalCenter
+                right: parent.right
+                rightMargin: 5
+            }
+            text: "Execute"
         }
     }
-    ListView {
-        id: listView
+
+    Rectangle {
+        id: header
+
+        height: parent.height * 0.1
         anchors {
-            right: parent.right
             top: parent.top
+            left: parent.left
+            right: parent.right
         }
-        width: 200
-        height: parent.height
-        model: ListModel {
-            id: listModel
+        color: "Grey"
+
+        ComboBox {
+            id: interfacesDropDown
+
+            anchors {
+                left: parent.left
+                verticalCenter: parent.verticalCenter
+            }
+            width: parent.width * 0.2
+            model: NetworkInterfaceModel {}
+        }
+
+        Button {
+            id: btnStart
+
+            property bool enabled: false
+
+            width: 100
+            height: 25
+            anchors {
+                left: interfacesDropDown.right
+                leftMargin: 10
+                verticalCenter: parent.verticalCenter
+            }
+            text: "Start"
+            onClicked: {
+                if (!enabled) {
+                    console.log("Started")
+                    enabled = !enabled
+                    btnStart.text = "Stop"
+                    worker.packetProcessed.connect(function(info) {
+                        console.log(info)
+                        listModelNDPI.append({"text": info});})
+                    worker.start();
+                } else {
+                    console.log("quit")
+                    enabled = !enabled
+                    btnStart.text = "Start"
+                    worker.stop()
+                }
+            }
         }
     }
 
-    Button {
-        width: 50
-        height: 25
+    TableView {
+        id: tabletest
+
+        clip: true
+        columnSpacing: 5
+        rowSpacing: 5
         anchors {
+            top: header.bottom
             bottom: parent.bottom
-            horizontalCenter: parent.horizontalCenter
+            left: parent.left
+            right: parent.right
         }
-        onClicked: {
-            worker.packetProcessed.connect(function(info) {
-                listModel.append({"text": info});})
-            worker.start();
+        model: ProtocolModel {}
+
+        delegate: Rectangle {
+            implicitWidth: 150
+            implicitHeight: 100
+            Text {
+                text: display
+                anchors.centerIn: parent
+            }
         }
+        ScrollBar.vertical: ScrollBar {}
+        ScrollBar.horizontal: ScrollBar {}
+    }
+
+    TableView {
+        id: tableNDPI
+
+        anchors {
+            top: header.bottom
+            bottom: parent.bottom
+            left: parent.left
+            right: parent.right
+        }
+
+        clip: true
+        model: listModelNDPI
+        delegate: Rectangle {
+            implicitWidth: 100
+            implicitHeight: 50
+            border.width: 1
+
+            Text {
+                text: info
+                anchors.centerIn: parent
+            }
+        }
+    }
+
+    ListModel {
+        id: listModelNDPI
     }
 }

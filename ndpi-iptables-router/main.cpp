@@ -5,6 +5,7 @@
 #include <pcap.h>
 #include <ndpi/ndpi_api.h>
 
+#include "protocolmodel.h"
 #include "networkinterfacemodel.h"
 #include "dpiworker.h"
 
@@ -15,6 +16,7 @@ int main(int argc, char *argv[])
     DPIWorker worker;
 
     qmlRegisterType<NetworkInterfaceModel>("com.example", 1, 0, "NetworkInterfaceModel");
+    qmlRegisterType<ProtocolModel>("ProtocolModel", 1, 0, "ProtocolModel");
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("worker", &worker);

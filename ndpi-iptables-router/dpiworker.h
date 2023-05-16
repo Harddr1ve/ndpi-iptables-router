@@ -15,6 +15,11 @@ class DPIWorker : public QThread
 public:
     explicit DPIWorker(QObject *parent = nullptr) : QThread(parent) {}
 
+public slots:
+    void stop() {
+        requestInterruption();
+    }
+
 signals:
     void packetProcessed(QString info);
 
@@ -52,6 +57,7 @@ protected:
 
             // Convert the protocol information to a string and emit the signal
             QString info = QString::fromStdString(ndpi_get_proto_name(ndpi_struct, protocol.master_protocol));
+            qDebug() << info;
             emit packetProcessed(info);
 
             // Check if the thread should stop

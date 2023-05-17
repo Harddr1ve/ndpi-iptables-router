@@ -10,11 +10,24 @@ ApplicationWindow {
     height: 480
     title: qsTr("nDPI ipTables Router")
 
+    Component.onCompleted: {
+        commandRunner.commandFinished.connect(function(output) {
+            outputField.text = output;
+        });
+    }
+    TextArea {
+        id: outputField
+        anchors.top: parent.rop
+        width: parent.width
+        height: parent.height
+        readOnly: true
+    }
+
     footer: Rectangle {
         height: parent.height * 0.1
         color: "Gray"
 
-        TextInput {
+        TextField {
             id: inputIptablesCommand
 
             height: parent.height * 0.9
@@ -38,6 +51,13 @@ ApplicationWindow {
                 rightMargin: 5
             }
             text: "Execute"
+            onClicked: {
+                console.log("execute")
+                commandRunner.runCommand(inputIptablesCommand.text)
+                commandRunner.commandFinished.connect(function (output){
+                    console.log(output)
+                })
+            }
         }
     }
 

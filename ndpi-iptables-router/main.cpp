@@ -2,24 +2,30 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QDebug>
+#include <QString>
+#include <QCommandLineOption>
+#include <QProcess>
 #include <pcap.h>
 #include <ndpi/ndpi_api.h>
 
 #include "protocolmodel.h"
 #include "networkinterfacemodel.h"
 #include "dpiworker.h"
+#include "commandrunner.h"
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
     DPIWorker worker;
+    CommandRunner commandRunner;
 
     qmlRegisterType<NetworkInterfaceModel>("com.example", 1, 0, "NetworkInterfaceModel");
     qmlRegisterType<ProtocolModel>("ProtocolModel", 1, 0, "ProtocolModel");
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("worker", &worker);
+    engine.rootContext()->setContextProperty("commandRunner", &commandRunner);
     const QUrl url(u"qrc:/ndpi-iptables-router/Main.qml"_qs);
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
         &app, [url](QObject *obj, const QUrl &objUrl) {

@@ -37,7 +37,7 @@ void DPIWorker::run()
         // Convert the protocol information to a string and emit the signal
         QString info = QString::fromStdString(ndpi_get_proto_name(ndpi_struct, protocol.master_protocol));
         qDebug() << info << flow.dport;
-        emit packetProcessed(info);
+        emit packetProcessed(info, flow.host_server_name);
 
         // Check if the thread should stop
         if (isInterruptionRequested()) {

@@ -23,15 +23,7 @@ public:
 signals:
     void selectedInterface(const QString interface);
 public slots:
-    void handleModelItem(QVariant item) {
-        bool ok;
-        int index = item.toInt(&ok);
-        if(ok) {
-            QVariant data = this->data(this->index(index), NameRole);
-            qDebug() << "Received item data: " << data.toString();
-            emit selectedInterface(data.toString());
-        }
-    }
+    void handleModelItem(QVariant item);
 
 private:
     QList<QNetworkInterface> m_interfaces;

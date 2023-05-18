@@ -1,9 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
-import ProtocolModel 1.0
-import com.example 1.0
-
 ApplicationWindow {
     id: root
 
@@ -49,9 +46,6 @@ ApplicationWindow {
                     console.log("Started")
                     enabled = !enabled
                     btnStart.text = "Stop"
-                    worker.packetProcessed.connect(function(info) {
-                        console.log(info)
-                        listModelNDPI.append({"text": info});})
                     worker.start();
                 } else {
                     console.log("quit")
@@ -193,7 +187,7 @@ ApplicationWindow {
             left: parent.left
             right: parent.right
         }
-        model: ProtocolModel {}
+        model: protocolModel
         delegate: Rectangle {
             implicitWidth: 150
             implicitHeight: 100

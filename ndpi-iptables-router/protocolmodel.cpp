@@ -1,24 +1,33 @@
 #include "protocolmodel.h"
 
 ProtocolModel::ProtocolModel(QObject *parent) : QAbstractTableModel(parent)
-{
+{}
 
+int ProtocolModel::rowCount(const QModelIndex &parent) const {
+    Q_UNUSED(parent);
+    return m_data.count();
 }
-
-int ProtocolModel::rowCount(const QModelIndex & /*parent*/) const
-{
-    return 50;
+int ProtocolModel::columnCount(const QModelIndex &parent) const {
+    Q_UNUSED(parent);
+    return 2;
 }
+QVariant ProtocolModel::data(const QModelIndex &index, int role) const {
+    if (!index.isValid() || index.row() >= m_data.count())
+        return QVariant();
 
-int ProtocolModel::columnCount(const QModelIndex & /*parent*/) const
-{
-    return 5;
-}
-
-QVariant ProtocolModel::data(const QModelIndex &index, int role) const
-{
     if (role == Qt::DisplayRole) {
-        return QString("Row%1, Column%2").arg(index.row() + 1).arg(index.column() + 1);
+        switch(index.column()) {
+        case 0:
+            return m_data.at(index.row()).first;
+        case 1:
+            return m_data.at(index.row()).second;
+        }
     }
+
     return QVariant();
+}
+void ProtocolModel::addRow(const QString &col1Data, const QString &col2Data) {
+    beginInsertRows(QModelIndex(), m_data.count(), m_data.count());
+    m_data.append(qMakePair(col1Data, col2Data));
+    endInsertRows();
 }

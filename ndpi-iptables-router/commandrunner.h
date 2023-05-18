@@ -9,17 +9,9 @@ class CommandRunner : public QObject
 {
     Q_OBJECT
 public:
-    explicit CommandRunner(QObject *parent = nullptr) : QObject(parent) {}
+    explicit CommandRunner(QObject *parent = nullptr);
 
-    Q_INVOKABLE void runCommand(const QString &command)
-    {
-        QProcess process;
-        process.start("bash", QStringList() << "-c" << command);
-        process.waitForFinished();
-
-        // Emit the signal with the command output
-        emit commandFinished(process.readAllStandardOutput());
-    }
+    Q_INVOKABLE void runCommand(const QString &command);
 
 signals:
     void commandFinished(const QString &output);

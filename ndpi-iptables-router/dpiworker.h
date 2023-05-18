@@ -27,9 +27,10 @@ public slots:
     }
 
 signals:
-    void packetProcessed(QString info);
+    void packetProcessed(QString info, QString data);
 
 private:
+
     QString s_interface;
 
 protected:

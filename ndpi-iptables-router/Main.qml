@@ -25,7 +25,11 @@ ApplicationWindow {
                 verticalCenter: parent.verticalCenter
             }
             width: parent.width * 0.2
-            model: NetworkInterfaceModel {}
+            model: networkInterfaceModel
+            onCurrentValueChanged: {
+                console.log(interfacesDropDown.currentIndex)
+                networkInterfaceModel.handleModelItem(interfacesDropDown.currentIndex)
+            }
         }
         Button {
             id: btnStart

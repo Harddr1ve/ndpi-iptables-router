@@ -20,7 +20,6 @@ QVariant NetworkInterfaceModel::data(const QModelIndex &index, int role) const {
 
     if (role == NameRole)
         return iface.name();
-    // Обработайте другие роли, если они есть
 
     return QVariant();
 }
@@ -28,7 +27,6 @@ QVariant NetworkInterfaceModel::data(const QModelIndex &index, int role) const {
 QHash<int, QByteArray> NetworkInterfaceModel::roleNames() const {
     QHash<int, QByteArray> roles;
     roles[NameRole] = "name";
-    // Добавьте другие роли, если они есть
 
     return roles;
 }

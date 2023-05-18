@@ -5,22 +5,17 @@ import ProtocolModel 1.0
 import com.example 1.0
 
 ApplicationWindow {
+    id: root
+
     visible: true
-    width: 640
-    height: 480
+    width: 1024
+    height: 768
     title: qsTr("nDPI ipTables Router")
 
     Component.onCompleted: {
         commandRunner.commandFinished.connect(function(output) {
-            outputField.text = output;
+            outputField.text = outputField.text + "\n" + output;
         });
-    }
-    TextArea {
-        id: outputField
-        anchors.top: parent.rop
-        width: parent.width
-        height: parent.height
-        readOnly: true
     }
 
     footer: Rectangle {
@@ -59,6 +54,80 @@ ApplicationWindow {
                 })
             }
         }
+    }
+
+    Rectangle {
+        id: rectTopWindow
+
+        height: parent.height * 0.04
+        width: parent.width
+        anchors.bottom: rectOutputArea.top
+        color: "DarkGrey"
+
+        Button {
+            id: buttonMinimize
+
+            property bool isExpand: true
+
+            width: parent.width * 0.05
+            height: parent.height * 0.8
+            anchors {
+                left: parent.left
+                leftMargin: parent.width * 0.02
+                verticalCenter: parent.verticalCenter
+            }
+            onClicked: {
+                if (isExpand) {
+                    animateMinimize.start()
+                    isExpand = !isExpand
+                } else {
+                    animateMaximize.start()
+                    isExpand = !isExpand
+                }
+            }
+        }
+    }
+
+    Rectangle {
+        id: rectOutputArea
+
+        height: parent.height * 0.3
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
+        color: "Black"
+
+        ScrollView {
+            anchors.top: parent.rop
+            width: parent.width
+            height: parent.height
+
+            TextArea {
+                id: outputField
+
+                readOnly: true
+            }
+        }
+
+        PropertyAnimation {
+            id: animateMinimize
+
+            target: rectOutputArea
+            property: "height"
+            to: 0
+            duration: 300
+        }
+        PropertyAnimation {
+            id: animateMaximize
+
+            target: rectOutputArea
+            property: "height"
+            to: root.height * 0.3
+            duration: 300
+        }
+
     }
 
     Rectangle {
@@ -123,7 +192,7 @@ ApplicationWindow {
         rowSpacing: 5
         anchors {
             top: header.bottom
-            bottom: parent.bottom
+            bottom: rectTopWindow.top
             left: parent.left
             right: parent.right
         }
@@ -144,9 +213,10 @@ ApplicationWindow {
     TableView {
         id: tableNDPI
 
+        visible: false
         anchors {
             top: header.bottom
-            bottom: parent.bottom
+            bottom: rectOutputArea.top
             left: parent.left
             right: parent.right
         }

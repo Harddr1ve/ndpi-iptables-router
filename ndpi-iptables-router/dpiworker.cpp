@@ -2,6 +2,11 @@
 
 DPIWorker::DPIWorker(QObject *parent) : QThread(parent) {}
 
+DPIWorker::~DPIWorker() {
+    if (ndpi_struct != nullptr)
+        ndpi_exit_detection_module(ndpi_struct);
+}
+
 void DPIWorker::run()
 {
     // Initialize nDPI

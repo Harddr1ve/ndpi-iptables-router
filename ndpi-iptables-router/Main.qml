@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtQuick.Dialogs
 
 ApplicationWindow {
     id: root
@@ -19,6 +20,7 @@ ApplicationWindow {
 
             anchors {
                 left: parent.left
+                leftMargin: 10
                 verticalCenter: parent.verticalCenter
             }
             width: parent.width * 0.2
@@ -53,6 +55,44 @@ ApplicationWindow {
                     btnStart.text = "Start"
                     worker.stop()
                 }
+            }
+        }
+        Button {
+            id: loadButton
+
+            text: "Load PCAP file"
+            anchors {
+                verticalCenter: parent.verticalCenter
+                left: btnStart.right
+                leftMargin: 10
+            }
+            onClicked: fileDialog.open()
+        }
+        FileDialog {
+            id: fileDialog
+
+            title: "Please choose a PCAP file"
+            nameFilters: ["PCAP files (*.pcap)", "All files (*)"]
+            onAccepted: {
+                var path = selectedFile.toString();
+                path = path.replace(/^(file:\/{2})/,"");
+                pcapWorker.setFilename(decodeURIComponent(path));
+                selectedFile !== "" ? btnAnalyze.visible = true
+                                    : btnAnalyze.visible = false
+            }
+        }
+        Button{
+            id: btnAnalyze
+
+            text: "Analyze PCAP"
+            anchors {
+                verticalCenter: parent.verticalCenter
+                left: loadButton.right
+                leftMargin: 10
+            }
+            visible: false
+            onClicked:  {
+                pcapWorker.start();
             }
         }
     }

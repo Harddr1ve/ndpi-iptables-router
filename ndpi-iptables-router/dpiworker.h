@@ -14,6 +14,7 @@ class DPIWorker : public QThread
 
 public:
     explicit DPIWorker(QObject *parent = nullptr);
+    ~DPIWorker();
 
 public slots:
     void stop()
@@ -30,8 +31,9 @@ signals:
     void packetProcessed(QString info, QString data);
 
 private:
-
     QString s_interface;
+    QString filename;
+    struct ndpi_detection_module_struct *ndpi_struct;
 
 protected:
     void run() override;

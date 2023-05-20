@@ -14,6 +14,8 @@ qt_add_executable(appndpi-iptables-router
     networkinterfacemodel.cpp
     dpiworker.h
     dpiworker.cpp
+    pcapworker.h
+    pcapworker.cpp
     protocolmodel.h
     protocolmodel.cpp
     commandrunner.h

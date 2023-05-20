@@ -10,6 +10,7 @@
 #include "protocolmodel.h"
 #include "networkinterfacemodel.h"
 #include "dpiworker.h"
+#include "pcapworker.h"
 #include "commandrunner.h"
 
 int main(int argc, char *argv[])
@@ -17,6 +18,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     DPIWorker worker;
+    PcapWorker pcapWorker;
     CommandRunner commandRunner;
     NetworkInterfaceModel networkInterfaceModel;
     ProtocolModel protocolModel;
@@ -26,6 +28,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("worker", &worker);
+    engine.rootContext()->setContextProperty("pcapWorker", &pcapWorker);
     engine.rootContext()->setContextProperty("commandRunner", &commandRunner);
     engine.rootContext()->setContextProperty("networkInterfaceModel", &networkInterfaceModel);
     engine.rootContext()->setContextProperty("protocolModel", &protocolModel);

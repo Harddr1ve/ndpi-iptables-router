@@ -20,6 +20,8 @@ qt_add_executable(appndpi-iptables-router
     protocolmodel.cpp
     commandrunner.h
     commandrunner.cpp
+    databasemodel.h
+    databasemodel.cpp
 )
 
 qt_add_qml_module(appndpi-iptables-router

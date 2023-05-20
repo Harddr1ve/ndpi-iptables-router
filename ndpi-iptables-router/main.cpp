@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
 
     QObject::connect(&networkInterfaceModel, &NetworkInterfaceModel::selectedInterface, &worker, &DPIWorker::updateInterface);
     QObject::connect(&worker, &DPIWorker::packetProcessed, &protocolModel, &ProtocolModel::addRow);
+    QObject::connect(&pcapWorker, &PcapWorker::packetInfo, &protocolModel, &ProtocolModel::addPcapRow);
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("worker", &worker);

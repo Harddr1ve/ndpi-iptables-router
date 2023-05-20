@@ -50,7 +50,7 @@ void PcapWorker::run() {
         // Convert the protocol information to a string and emit the signal
         QString info = QString::fromStdString(ndpi_get_proto_name(ndpi_struct, protocol.app_protocol));
         qDebug() << info << " " << info1;
-        emit packetInfo(info);
+        emit packetInfo(info, src_ip, dst_ip, QString::fromStdString(ndpi_get_proto_name(ndpi_struct, protocol.app_protocol)));
 
         // Check if the thread should stop
         if (isInterruptionRequested()) {

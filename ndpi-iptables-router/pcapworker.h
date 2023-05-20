@@ -22,7 +22,8 @@ public slots:
         qDebug() << "Filename changed";
     }
 signals:
-    void packetInfo(const QString &info);
+    void packetInfo(const QString &proto, const QString &srcIP,
+                    const QString dstIP, const QString pcapProto);
 
 protected:
     void run() override;

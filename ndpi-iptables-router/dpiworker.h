@@ -5,6 +5,12 @@
 #include <QDebug>
 #include <pcap.h>
 #include <ndpi/ndpi_api.h> // include the nDPI library
+#include <netinet/ip.h>
+#include <netinet/ether.h>
+#include <netinet/udp.h>
+#include <netinet/tcp.h>
+#include <arpa/inet.h>
+
 
 #define MAX_PACKET_SIZE 65536
 
